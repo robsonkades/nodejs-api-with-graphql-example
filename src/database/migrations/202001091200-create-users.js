@@ -23,7 +23,7 @@ module.exports = {
       sex: {
         type: Sequelize.ENUM,
         allowNull: false,
-        values: ['MEN', 'WOMAN', 'TRANSSEXUAL'],
+        values: ['MEN', 'WOMAN'],
       },
       city_id: {
         allowNull: false,
@@ -32,14 +32,9 @@ module.exports = {
         onDelete: 'SET NULL',
         references: { model: 'cities', key: 'id' },
       },
-      geolocation: {
-        type: Sequelize.STRING,
+      geopoint: {
+        type: Sequelize.JSONB,
         allowNull: true,
-      },
-      premium: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
       phone: {
         type: Sequelize.STRING,
@@ -54,6 +49,14 @@ module.exports = {
         allowNull: true,
         defaultValue: false,
       },
+      photos: {
+        type: Sequelize.JSONB,
+        allowNull: true,
+      },
+      videos: {
+        type: Sequelize.JSONB,
+        allowNull: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -65,7 +68,7 @@ module.exports = {
     });
   },
 
-  down: queryInterface => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('users');
   },
 };

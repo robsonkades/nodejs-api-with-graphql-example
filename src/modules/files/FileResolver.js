@@ -6,7 +6,7 @@ import { S3 } from '../../config/aws';
 
 async function getSignedPutObjectUrl(objectId, contentType) {
   return S3.getSignedUrlPromise('putObject', {
-    Bucket: 'gatamalvada',
+    Bucket: 'mybucket',
     Key: objectId,
     Expires: 15 * 60,
     ContentType: contentType,
@@ -21,7 +21,7 @@ export default async function requestUpload(context, { input }) {
     contentType: Yup.string().required(),
   });
 
-  await schema.validate(input).catch(err => {
+  await schema.validate(input).catch((err) => {
     throw new UserInputError(err.name, { ...err.errors });
   });
 

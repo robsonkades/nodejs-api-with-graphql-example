@@ -73,14 +73,14 @@ const ContentType = new GraphQLEnumType({
   },
 });
 
-const InputFilterSex = new GraphQLEnumType({
-  name: 'TableSexFilterInput',
+const InputSex = new GraphQLEnumType({
+  name: 'InputSex',
   values: {
-    asc: {
-      value: 'ASC',
+    WOMAN: {
+      value: 'WOMAN',
     },
-    desc: {
-      value: 'DESC',
+    MEN: {
+      value: 'MEN',
     },
   },
 });
@@ -321,6 +321,18 @@ const CityTypeInput = new GraphQLInputObjectType({
   },
 });
 
+const GeoPointTypeInput = new GraphQLInputObjectType({
+  name: 'GeoPointTypeInput',
+  fields: {
+    lat: {
+      type: GraphQLString,
+    },
+    log: {
+      type: GraphQLString,
+    },
+  },
+});
+
 export {
   InputFilterString,
   InputFilterInt,
@@ -330,9 +342,10 @@ export {
   InputPagination,
   InputFilterOrder,
   InputFilterDateTime,
-  InputFilterSex,
+  InputSex,
   CityTypeInput,
   RegionTypeInput,
   InputFileType,
   ContentType,
+  GeoPointTypeInput,
 };

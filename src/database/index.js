@@ -5,13 +5,11 @@ import databaseConfig from '../config/database';
 import Region from '../modules/regions/region/RegionModel';
 import City from '../modules/regions/city/CityModel';
 import User from '../modules/users/UserModel';
-import Video from '../modules/videos/VideoModel';
-import Photo from '../modules/photos/PhotoModel';
 import Vip from '../modules/vips/VipModel';
 
 const { Op } = Sequelize;
 
-const models = [Region, City, User, Video, Photo, Vip];
+const models = [Region, City, User, Vip];
 
 const operatorsAliases = {
   and: Op.and, // [{a: 5}, {b: 6}] // (a = 5) AND (b = 6)

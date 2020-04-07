@@ -6,11 +6,9 @@ import Base64 from 'Base64';
 import { getAsync, setAsync } from '../../config/redis';
 
 import UserModel from './UserModel';
-import Photo from '../photos/PhotoModel';
 import City from '../regions/city/CityModel';
 import Vip from '../vips/VipModel';
 import Region from '../regions/region/RegionModel';
-import Video from '../videos/VideoModel';
 
 const { Op } = Sequelize;
 
@@ -42,8 +40,8 @@ export async function saveUser(context, { input }) {
 
   const schema = Yup.object().shape({
     name: Yup.string().required(),
-    region: Yup.string().required(),
-    city: Yup.string().required(),
+    sex: Yup.string().required(),
+    city_id: Yup.string().required(),
   });
 
   await schema.validate(input).catch(err => {
@@ -77,10 +75,7 @@ export async function saveUser(context, { input }) {
   return UserModel.create(input);
 }
 
-export async function getUsers(
-  _,
-  { filters = {}, pagination = {}, order = {} }
-) {
+export async function getUsers({ filters = {}, pagination = {}, order = {} }) {
   const orders = Object.entries(order || []);
 
   const { userFilter, cityFilter, regionFilter } = filters;
@@ -103,15 +98,19 @@ export async function getUsers(
           },
         ],
       },
-      { model: Photo, as: 'photos', attributes: ['id', 'url', 'description'] },
-      { model: Video, as: 'videos', attributes: ['id', 'url', 'description'] },
+      {
+        model: Vip,
+        as: 'vips',
+        attributes: ['expire'],
+        order: ['date'],
+      },
     ],
     order: [...orders],
   });
   return users.rows;
 }
 
-export async function getUsersVip(_, { filters = {} }) {
+export async function getUsersVip({ filters = {} }) {
   const { cityFilter, regionFilter } = filters;
 
   const users = await UserModel.findAll({

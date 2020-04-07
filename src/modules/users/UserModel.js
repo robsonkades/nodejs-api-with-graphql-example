@@ -10,16 +10,17 @@ class User extends Model {
         },
         sex: {
           type: Sequelize.ENUM,
-          values: ['MEN', 'WOMAN', 'TRANSSEXUAL'],
+          values: ['MEN', 'WOMAN'],
         },
         name: Sequelize.STRING,
         email: Sequelize.STRING,
         description: Sequelize.STRING,
         avatar_url: Sequelize.STRING,
-        geolocation: Sequelize.STRING,
-        premium: Sequelize.BOOLEAN,
+        geopoint: Sequelize.JSONB,
         phone: Sequelize.STRING,
         verified: Sequelize.BOOLEAN,
+        photos: Sequelize.JSONB,
+        videos: Sequelize.JSONB,
       },
       {
         sequelize,
@@ -30,9 +31,7 @@ class User extends Model {
 
   static associate(models) {
     this.belongsTo(models.City, { foreignKey: 'city_id', as: 'city' });
-    this.hasMany(models.Vip, { foreignKey: 'user_id', as: 'vips' });
-    this.hasMany(models.Photo, { foreignKey: 'user_id', as: 'photos' });
-    this.hasMany(models.Video, { foreignKey: 'user_id', as: 'videos' });
+    this.hasOne(models.Vip, { foreignKey: 'user_id', as: 'vips' });
   }
 }
 

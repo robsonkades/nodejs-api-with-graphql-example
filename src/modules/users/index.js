@@ -1,8 +1,13 @@
 import { GraphQLString, GraphQLList, GraphQLInputObjectType } from 'graphql';
+import GraphQLUUID from 'graphql-type-uuid';
 
 import { ForbiddenError } from 'apollo-server';
 import UserType from './UserType';
-import { saveUser, getUsersAsyncCache } from './UserResolver';
+import {
+  saveUser,
+  getUsersAsyncCache,
+  getUsersVipAsyncCache,
+} from './UserResolver';
 
 import {
   InputFilterString,
@@ -10,9 +15,10 @@ import {
   InputPagination,
   InputFilterOrder,
   InputFilterDateTime,
-  InputFilterSex,
   CityTypeInput,
   RegionTypeInput,
+  GeoPointTypeInput,
+  InputSex,
 } from '../filters';
 
 export const queries = {
@@ -33,12 +39,6 @@ export const queries = {
               type: InputFilterOrder,
             },
             description: {
-              type: InputFilterOrder,
-            },
-            geolocation: {
-              type: InputFilterOrder,
-            },
-            premium: {
               type: InputFilterOrder,
             },
             sex: {
@@ -70,14 +70,8 @@ export const queries = {
                   name: {
                     type: InputFilterString,
                   },
-                  geolocation: {
-                    type: InputFilterString,
-                  },
-                  premium: {
-                    type: InputFilterBoolean,
-                  },
                   sex: {
-                    type: InputFilterSex,
+                    type: InputSex,
                   },
                   phone: {
                     type: InputFilterString,
@@ -94,6 +88,27 @@ export const queries = {
                 },
               }),
             },
+            regionFilter: {
+              type: RegionTypeInput,
+            },
+            cityFilter: {
+              type: CityTypeInput,
+            },
+          },
+        }),
+      },
+    },
+  },
+  vips: {
+    type: GraphQLList(UserType),
+    resolve: (_, input, context) => {
+      return getUsersVipAsyncCache(input, context);
+    },
+    args: {
+      filters: {
+        type: new GraphQLInputObjectType({
+          name: 'TableUserVipFiltersInput',
+          fields: {
             regionFilter: {
               type: RegionTypeInput,
             },
@@ -127,14 +142,14 @@ export const mutations = {
             description: {
               type: GraphQLString,
             },
-            city: {
-              type: CityTypeInput,
+            city_id: {
+              type: GraphQLUUID,
             },
             sex: {
-              type: InputFilterSex,
+              type: InputSex,
             },
-            geolocation: {
-              type: GraphQLString,
+            geopoint: {
+              type: GeoPointTypeInput,
             },
           },
         }),

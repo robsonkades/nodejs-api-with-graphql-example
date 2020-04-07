@@ -1,6 +1,5 @@
 import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 import GraphQLUUID from 'graphql-type-uuid';
-import { GraphQLDateTime } from 'graphql-iso-date';
 
 export default new GraphQLObjectType({
   name: 'VideoType',
@@ -13,12 +12,6 @@ export default new GraphQLObjectType({
     },
     description: {
       type: GraphQLString,
-    },
-    createdAt: {
-      type: GraphQLDateTime,
-    },
-    updatedAt: {
-      type: GraphQLDateTime,
     },
   },
 });

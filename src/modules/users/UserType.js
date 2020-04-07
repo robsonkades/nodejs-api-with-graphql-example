@@ -8,8 +8,9 @@ import {
 import GraphQLUUID from 'graphql-type-uuid';
 import { GraphQLDateTime } from 'graphql-iso-date';
 
-import PhotoType from '../photos/PhotoType';
-import VideoType from '../videos/VideoType';
+import PhotoType from './PhotoType';
+import VideoType from './VideoType';
+import GeoPointType from './GeoPointType';
 import CityType from '../regions/city/CityType';
 
 export default new GraphQLObjectType({
@@ -24,17 +25,14 @@ export default new GraphQLObjectType({
     description: {
       type: GraphQLString,
     },
-    geolocation: {
-      type: GraphQLString,
-    },
-    premium: {
-      type: GraphQLNonNull(GraphQLBoolean),
+    geopoint: {
+      type: GeoPointType,
     },
     phone: {
       type: GraphQLNonNull(GraphQLString),
     },
     avatarUrl: {
-      type: GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     sex: {
       type: GraphQLNonNull(GraphQLString),
@@ -45,17 +43,27 @@ export default new GraphQLObjectType({
     verify: {
       type: GraphQLNonNull(GraphQLBoolean),
     },
-    createdAt: {
-      type: GraphQLNonNull(GraphQLDateTime),
-    },
-    updatedAt: {
-      type: GraphQLNonNull(GraphQLDateTime),
-    },
     photos: {
       type: GraphQLList(PhotoType),
     },
     videos: {
       type: GraphQLList(VideoType),
+    },
+    vips: {
+      type: new GraphQLObjectType({
+        name: 'UserVipExpireType',
+        fields: {
+          expire: {
+            type: GraphQLDateTime,
+          },
+        },
+      }),
+    },
+    createdAt: {
+      type: GraphQLNonNull(GraphQLDateTime),
+    },
+    updatedAt: {
+      type: GraphQLNonNull(GraphQLDateTime),
     },
   },
 });
