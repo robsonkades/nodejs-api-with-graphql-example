@@ -24,7 +24,7 @@
     "Base64": "^1.1.0",
     "amazon-cognito-identity-js": "^3.2.1",
     "apollo-server": "^2.25.3",
-    "aws-sdk": "^2.599.0",
+    "aws-sdk": "^2.814.0",
     "dotenv": "^8.2.0",
     "graphql": "^14.5.8",
     "graphql-iso-date": "^3.6.1",
